@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <body>
+    <h2>Delete Book</h2>
+
+    <input id="id" placeholder="Book ID" />
+
+    <button onclick="deleteBook()">Delete</button>
+
+    <script>
+      async function deleteBook() {
+        const id = document.getElementById("id").value;
+
+        await fetch(`/api/books/delete/${id}`, {
+          method: "DELETE",
+        });
+
+        alert("Deleted");
+      }
+    </script>
+  </body>
+</html>

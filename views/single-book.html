@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <body>
+    <h2>Find Book By ID</h2>
+
+    <input id="id" placeholder="Enter Book ID" />
+    <button onclick="getBook()">Search</button>
+
+    <div id="result"></div>
+
+    <script>
+      async function getBook() {
+        const id = document.getElementById("id").value;
+
+        const res = await fetch(`/api/books/get/${id}`);
+        const data = await res.json();
+
+        const book = data.data;
+
+        document.getElementById("result").innerHTML = `
+<h3>Book Details</h3>
+ID: ${book._id} <br>
+Title: ${book.title} <br>
+Author: ${book.author} <br>
+Year: ${book.year}
+`;
+      }
+    </script>
+  </body>
+</html>

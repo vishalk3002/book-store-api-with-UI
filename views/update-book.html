@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <body>
+    <h2>Update Book</h2>
+
+    <input id="id" placeholder="Book ID" /><br /><br />
+    <input id="title" placeholder="Title" /><br /><br />
+    <input id="author" placeholder="Author" /><br /><br />
+    <input id="year" placeholder="Year" /><br /><br />
+
+    <button onclick="updateBook()">Update</button>
+
+    <script>
+      async function updateBook() {
+        const id = document.getElementById("id").value;
+
+        const data = {};
+
+        const title = document.getElementById("title").value;
+        const author = document.getElementById("author").value;
+        const year = document.getElementById("year").value;
+
+        if (title) data.title = title;
+        if (author) data.author = author;
+        if (year) data.year = year;
+
+        const res = await fetch(`/api/books/update/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.json();
+
+        alert(result.message || result.error);
+      }
+    </script>
+  </body>
+</html>

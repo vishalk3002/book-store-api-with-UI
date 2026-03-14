@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <body>
+    <h2>All Books</h2>
+
+    <button onclick="loadBooks()">Load Books</button>
+
+    <ul id="list"></ul>
+
+    <script>
+      async function loadBooks() {
+        const res = await fetch("/api/books/getAll");
+        const data = await res.json();
+
+        const list = document.getElementById("list");
+        list.innerHTML = "";
+
+        data.data.forEach((book) => {
+          const li = document.createElement("li");
+
+          li.innerHTML = `
+ID: <b>${book._id}</b> <br>
+Title: ${book.title} <br>
+Author: ${book.author} <br>
+Year: ${book.year}
+<hr>
+`;
+
+          list.appendChild(li);
+        });
+      }
+    </script>
+  </body>
+</html>
