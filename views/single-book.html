@@ -11,19 +11,33 @@
     <script>
       async function getBook() {
         const id = document.getElementById("id").value;
+        const resultDiv = document.getElementById("result");
 
-        const res = await fetch(`/api/books/get/${id}`);
-        const data = await res.json();
+        try {
+          const res = await fetch(`/api/books/get/${id}`);
 
-        const book = data.data;
+          // If status is not 200, show error
+          if (!res.ok) {
+            const errorData = await res.json();
+            resultDiv.innerHTML = `<p style="color:red;">${errorData.message}</p>`;
+            return;
+          }
 
-        document.getElementById("result").innerHTML = `
-<h3>Book Details</h3>
-ID: ${book._id} <br>
-Title: ${book.title} <br>
-Author: ${book.author} <br>
-Year: ${book.year}
-`;
+          const data = await res.json();
+          const book = data.data;
+
+          resultDiv.innerHTML = `
+        <h3>Book Details</h3>
+        ID: ${book._id} <br>
+        Title: ${book.title} <br>
+        Author: ${book.author} <br>
+        Year: ${book.year}
+      `;
+        } catch (err) {
+          // Catch network or unexpected errors
+          resultDiv.innerHTML = `<p style="color:red;">An unexpected error occurred. Please try again.</p>`;
+          console.error(err);
+        }
       }
     </script>
   </body>
